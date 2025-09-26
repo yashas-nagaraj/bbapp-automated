@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  backend:
+    build: ./backend
+    image: bbapp-backend:local
+    environment:
+      - DB_HOST=${RDS_ENDPOINT}
+      - DB_PORT=5432
+      - DB_USER=${RDS_USER}
+      - DB_PASSWORD=${RDS_PASSWORD}
+      - DB_NAME=${RDS_DB_NAME}
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    image: bbapp-frontend:local
+    ports:
+      - "8080:80"
+    restart: unless-stopped

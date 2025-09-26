@@ -1,0 +1,3 @@
+# BBApp (Breaking Bad App)
+
+Simple devops practice project with frontend + backend containers...

@@ -1,7 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: bbapp-backend
+  name: backend
+  namespace: bbapp
   labels:
     app: bbapp-backend
 spec:

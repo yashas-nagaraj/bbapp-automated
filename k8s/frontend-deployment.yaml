@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bbapp-frontend
+  namespace: bbapp
 spec:
   replicas: 2
   selector:
@@ -13,7 +14,19 @@ spec:
         app: bbapp-frontend
     spec:
       containers:
-      - name: frontend
-        image: 637423431507.dkr.ecr.ap-south-1.amazonaws.com/bbapp-frontend:latest
-        ports:
-        - containerPort: 80
+        - name: frontend
+          image: 637423431507.dkr.ecr.ap-south-1.amazonaws.com/bbapp-frontend:latest
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /seasons.html
+              port: 80
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /seasons.html
+              port: 80
+            initialDelaySeconds: 20
+            periodSeconds: 20

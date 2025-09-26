@@ -1,4 +1,4 @@
-const API_BASE = `http://${window.location.hostname}:3000/api`;
+const API_BASE = '/api';
 
 function escapeHtml(s){ return (s||'').toString().replace(/[&<>\"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','\"':'&quot;',"'":'&#39;'}[c])); }
 

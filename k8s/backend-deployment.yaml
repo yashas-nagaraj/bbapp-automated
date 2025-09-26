@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bbapp-backend
+  namespace: bbapp
 spec:
   replicas: 2
   selector:
@@ -13,8 +14,22 @@ spec:
         app: bbapp-backend
     spec:
       containers:
-      - name: backend
-        image: 637423431507.dkr.ecr.ap-south-1.amazonaws.com/bbapp-backend:latest
-        ports:
-        - containerPort: 3000
-        env: []
+        - name: backend
+          image: 637423431507.dkr.ecr.ap-south-1.amazonaws.com/bbapp-backend:latest
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - secretRef:
+                name: db-credentials
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 20

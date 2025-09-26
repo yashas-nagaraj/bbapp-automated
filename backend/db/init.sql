@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS questions(id SERIAL PRIMARY KEY,name VARCHAR(200),question TEXT,created_at TIMESTAMP DEFAULT now());
+CREATE TABLE IF NOT EXISTS answers(id SERIAL PRIMARY KEY,question_id INT REFERENCES questions(id),name VARCHAR(200),answer TEXT,created_at TIMESTAMP DEFAULT now());

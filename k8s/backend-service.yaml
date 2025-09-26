@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: bbapp-backend
+  labels:
+    app: bbapp-backend
+spec:
+  selector:
+    app: bbapp-backend
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: ClusterIP

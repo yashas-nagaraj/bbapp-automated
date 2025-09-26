@@ -1,0 +1,104 @@
+/* BBApp styles - Breaking Bad themed */
+:root{
+  --bb-green: #9bbf3a;
+  --bb-dark: #081012;
+  --bb-accent: #ffd166;
+  --bb-yellow: #f7b733;
+  --glass: rgba(0,0,0,0.45);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,Segoe UI,system-ui,Arial;color:#fff;background:var(--bb-dark)}
+.home{position:relative;min-height:100%;overflow:hidden}
+.bg{position:fixed;inset:0;background-image:url('assets/bg-home.jpg');background-size:cover;background-position:center;filter:brightness(0.55) contrast(1.05);z-index:0}
+.overlay{position:fixed;inset:0;background:linear-gradient(180deg, rgba(0,0,0,0.25), rgba(0,0,0,0.6));z-index:1}
+
+/* Hero */
+.hero{position:relative;z-index:2;max-width:1100px;margin:3rem auto;padding:2rem}
+.brand{display:flex;align-items:center;gap:1rem}
+.brand-icon{width:84px;height:84px;border-radius:10px;box-shadow:0 8px 30px rgba(0,0,0,0.6);border:2px solid rgba(255,255,255,0.06)}
+.titles .big{font-size:3.2rem;margin:0;color:var(--bb-accent);text-shadow:0 3px 18px rgba(0,0,0,0.6)}
+.subtitle{margin:0.3rem 0 0;color:rgba(255,255,255,0.9);opacity:0.95}
+
+.lead{margin-top:1.6rem;display:flex;align-items:center;gap:2rem;flex-wrap:wrap}
+.lead-text{font-size:1.15rem;max-width:700px;background:rgba(255,255,255,0.03);padding:0.6rem 0.9rem;border-radius:8px}
+.cta{display:inline-block;padding:0.8rem 1.2rem;border-radius:10px;background:linear-gradient(90deg,var(--bb-green),var(--bb-yellow));color:#05101a;font-weight:700;text-decoration:none;box-shadow:0 10px 30px rgba(0,0,0,0.35)}
+
+/* Quote + smoke */
+.dialogue{margin-top:2rem;position:relative;max-width:900px}
+.quote{font-size:1.5rem;font-weight:700;color:var(--bb-green);padding:0.6rem 0.8rem;background:rgba(0,0,0,0.25);display:inline-block;border-radius:6px}
+.smoke{position:absolute;left:0;top:-10px;width:100%;height:140px;pointer-events:none;overflow:hidden}
+.smoke::before,.smoke::after{
+  content:"";position:absolute;left:20%;top:80%;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.06);
+  transform:translateY(60px) scale(0.5);filter:blur(12px);opacity:0.85;animation:drift 7s linear infinite;
+}
+.smoke::after{left:45%;width:160px;height:160px;animation-duration:10s;animation-delay:-2s;opacity:0.6}
+@keyframes drift{
+  0%{transform:translateY(40px) scale(0.6);opacity:0.2}
+  40%{transform:translateY(-20px) scale(1);opacity:0.8}
+  100%{transform:translateY(-140px) scale(1.2);opacity:0}
+}
+
+/* About section */
+.content{position:relative;z-index:2;max-width:1100px;margin:1.8rem auto;padding:1rem}
+.about{background:rgba(0,0,0,0.36);padding:1rem;border-radius:8px}
+.about h2{margin-top:0;color:var(--bb-accent)}
+.about p{line-height:1.6;opacity:0.95}
+.about ul{margin:0.6rem 0 0 1rem;padding:0}
+
+/* footer */
+.footer{position:relative;z-index:2;text-align:center;padding:1rem 0;color:rgba(255,255,255,0.7);font-size:0.9rem}
+
+/* responsive */
+@media (max-width:720px){
+  .titles .big{font-size:2rem}
+  .lead{flex-direction:column;align-items:flex-start}
+  .quote{font-size:1.1rem}
+}
+
+/* seasons page background (uses assets/bg-seasons.jpg) */
+body.seasons .bg {
+  background-image: url('assets/bg-seasons.jpg');
+  background-size: cover;
+  background-position: center;
+  filter: brightness(0.55) contrast(1.05);
+}
+body.seasons .overlay {
+  /* keep the darker overlay used on home */
+  background: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0.6));
+}
+
+/* --- Seasons page specific styles --- */
+.seasons-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem;margin-bottom:1.5rem}
+.season-card{background:rgba(255,255,255,0.03);padding:1rem;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,0.5)}
+.season-card h3{margin:0 0 0.4rem;color:var(--bb-accent)}
+.season-summary{color:rgba(255,255,255,0.92);line-height:1.4}
+.season-list{margin-top:2rem}
+.season{background:rgba(0,0,0,0.6);padding:1rem;margin-bottom:1rem;border-radius:8px}
+.season h3{color:var(--bb-accent);margin:0 0 0.6rem}
+.qna{margin-top:1.6rem;background:rgba(0,0,0,0.45);padding:1rem;border-radius:10px}
+.q-form .row{display:flex;gap:0.6rem;align-items:center}
+.q-form input[type="text"]{flex:1;padding:0.5rem;border-radius:6px;border:0}
+.q-form textarea{width:100%;padding:0.6rem;border-radius:6px;border:0;margin-top:0.6rem}
+.latest-questions{list-style:none;padding:0;margin:0;margin-top:0.6rem}
+.latest-questions li{background:rgba(255,255,255,0.02);padding:0.6rem;border-radius:6px;margin:0.6rem 0}
+.question-item .q-head{display:flex;justify-content:space-between;align-items:center}
+.answers-list .answer{margin-top:0.5rem;padding:0.4rem;border-radius:6px;background:rgba(255,255,255,0.02)}
+.a-form{display:flex;gap:0.5rem;align-items:center;margin-top:0.6rem}
+.a-form .a-name{width:140px;padding:0.4rem;border-radius:6px;border:0}
+.a-form .a-text{flex:1;padding:0.4rem;border-radius:6px;border:0}
+.a-time{font-size:0.8rem;opacity:0.8;margin-top:0.2rem}
+
+/* responsive tweaks */
+@media (max-width:720px){
+  .seasons-grid{grid-template-columns:1fr}
+  .q-form .row{flex-direction:column}
+  .a-form{flex-direction:column;align-items:stretch}
+}
+
+/* fallback seasons background */
+body.seasons {
+  background: linear-gradient(160deg, #000000, #1a1a1a, #222222);
+  color: #f4f4f4;
+  min-height: 100vh;
+}

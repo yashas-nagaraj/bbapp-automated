@@ -1,0 +1,26 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bbapp-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    # add TLS/host/other annotations as needed
+spec:
+  rules:
+  - host: bbapp.example.com   # change to your host (or remove host to use cluster default)
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: bbapp-frontend
+            port:
+              number: 80
+      - path: /api
+        pathType: Prefix
+        backend:
+          service:
+            name: bbapp-backend
+            port:
+              number: 3000

@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bbapp-backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bbapp-backend
+  template:
+    metadata:
+      labels:
+        app: bbapp-backend
+    spec:
+      containers:
+      - name: backend
+        image: 637423431507.dkr.ecr.ap-south-1.amazonaws.com/bbapp-backend:latest
+        ports:
+        - containerPort: 3000
+        env: []

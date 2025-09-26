@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bbapp-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bbapp-frontend
+  template:
+    metadata:
+      labels:
+        app: bbapp-frontend
+    spec:
+      containers:
+      - name: frontend
+        image: 637423431507.dkr.ecr.ap-south-1.amazonaws.com/bbapp-frontend:latest
+        ports:
+        - containerPort: 80

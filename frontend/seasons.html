@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>BBApp - Seasons</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="seasons">
+  <main class="container">
+    <header style="margin-bottom:1.2rem">
+      <h1>Breaking Bad - Seasons</h1>
+      <p class="sub">Season summaries and episode counts</p>
+    </header>
+
+    <section id="seasons-grid" class="seasons-grid" aria-label="Seasons"></section>
+
+    <section class="qa" id="qa-panel">
+      <h2>Ask a question</h2>
+      <form id="q-form" class="q-form">
+        <div class="row">
+          <input type="text" id="name" placeholder="Your name" />
+          <button type="submit" class="btn small">Ask</button>
+        </div>
+        <textarea id="question" placeholder="Ask something about the show..." rows="4"></textarea>
+      </form>
+
+      <h3>Latest questions</h3>
+      <ul id="latest-questions" class="latest-questions"></ul>
+    </section>
+  </main>
+
+  <!-- Load the real JS file with backend calls -->
+  <script src="app.js"></script>
+</body>
+</html>

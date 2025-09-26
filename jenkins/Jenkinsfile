@@ -1,1 +1,75 @@
-pipeline { agent any; stages { stage('Build'){steps{sh 'echo build'}} } }
+pipeline {
+  agent any
+
+  environment {
+    AWS_DEFAULT_REGION = 'ap-south-1'
+    ACCOUNT_ID = sh(script: "aws sts get-caller-identity --query Account --output text", returnStdout: true).trim()
+    ECR_FE = "${ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/bbapp-frontend"
+    ECR_BE = "${ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/bbapp-backend"
+    IMAGE_TAG = "${env.BUILD_NUMBER}"
+  }
+
+  options { timestamps() }
+
+  stages {
+    stage('Checkout') {
+      steps { checkout scm }
+    }
+
+    stage('AWS Login (ECR)') {
+      steps {
+        withAWS(credentials: 'aws-creds', region: "${AWS_DEFAULT_REGION}") {
+          sh '''
+            aws --version
+            aws ecr get-login-password --region $AWS_DEFAULT_REGION \
+              | docker login --username AWS --password-stdin ${ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
+          '''
+        }
+      }
+    }
+
+    stage('Build Images') {
+      steps {
+        sh '''
+          docker build -t ${ECR_BE}:${IMAGE_TAG} -f backend/Dockerfile ./backend
+          docker build -t ${ECR_FE}:${IMAGE_TAG} -f frontend/Dockerfile ./frontend
+        '''
+      }
+    }
+
+    stage('Push Images') {
+      steps {
+        sh '''
+          docker push ${ECR_BE}:${IMAGE_TAG}
+          docker push ${ECR_FE}:${IMAGE_TAG}
+        '''
+      }
+    }
+
+    stage('Update Manifests (image tags)') {
+      steps {
+        sh '''
+          sed -i "s#637423431507.dkr.ecr.ap-south-1.amazonaws.com/bbapp-backend:latest#${ECR_BE}:${IMAGE_TAG}#" k8s/backend-deployment.yaml
+          sed -i "s#637423431507.dkr.ecr.ap-south-1.amazonaws.com/bbapp-frontend:latest#${ECR_FE}:${IMAGE_TAG}#" k8s/frontend-deployment.yaml
+        '''
+      }
+    }
+
+    stage('Deploy to EKS') {
+      steps {
+        withAWS(credentials: 'aws-creds', region: "${AWS_DEFAULT_REGION}") {
+          sh '''
+            aws eks update-kubeconfig --name <YOUR_EKS_CLUSTER_NAME> --region $AWS_DEFAULT_REGION
+
+            kubectl apply -f k8s/namespace.yaml
+            kubectl -n bbapp apply -f k8s/secret-db.yaml
+            kubectl -n bbapp apply -f k8s/backend-deployment.yaml
+            kubectl -n bbapp apply -f k8s/backend-service.yaml
+            kubectl -n bbapp apply -f k8s/frontend-deployment.yaml
+            kubectl -n bbapp apply -f k8s/frontend-service.yaml
+          '''
+        }
+      }
+    }
+  }
+}

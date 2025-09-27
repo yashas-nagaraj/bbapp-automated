@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bbapp-backend
-  namespace: bbapp
+  namespace: 
 spec:
   replicas: 2
   selector:
@@ -14,13 +14,14 @@ spec:
         app: bbapp-backend
     spec:
       containers:
-        - name: backend
-          image: 637423431507.dkr.ecr.ap-south-1.amazonaws.com/bbapp-backend:latest
+        - name: bbapp-backend
+          image: /bbapp-backend:
           ports:
             - containerPort: 3000
           envFrom:
             - secretRef:
                 name: db-credentials
+          # If your server listens on 3000, these probes are optional:
           readinessProbe:
             httpGet:
               path: /api/health
@@ -31,5 +32,19 @@ spec:
             httpGet:
               path: /api/health
               port: 3000
-            initialDelaySeconds: 20
+            initialDelaySeconds: 15
             periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: 
+spec:
+  selector:
+    app: bbapp-backend
+  ports:
+    - port: 3000
+      targetPort: 3000
+      protocol: TCP
+  type: ClusterIP

@@ -19,7 +19,7 @@ managedNodeGroups:
     amiFamily: AmazonLinux2023
     ssh:
       allow: true
-      publicKeyName: aishwaryaKeypair   # <-- your key pair
+      publicKeyName: aishwaryaKeyPair   # <-- your key pair
 
 iam:
   withOIDC: true

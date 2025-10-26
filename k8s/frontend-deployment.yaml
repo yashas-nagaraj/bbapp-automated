@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: bbapp-frontend
-  namespace: 
+  namespace: bbapp
 spec:
   replicas: 2
   selector:
@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: bbapp-frontend
-          image: /bbapp-frontend:
+          image: 256935247221.dkr.ecr.ap-south-1.amazonaws.com/bbapp-frontend:v1
           ports:
             - containerPort: 80
           # Optional static health:
@@ -36,7 +36,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: bbapp-frontend
-  namespace: 
+  namespace: bbapp
 spec:
   selector:
     app: bbapp-frontend

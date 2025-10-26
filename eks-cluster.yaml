@@ -11,7 +11,7 @@ vpc:
 
 managedNodeGroups:
   - name: ng-main
-    instanceType: t3.medium
+    instanceType: t3.small
     desiredCapacity: 2
     minSize: 2
     maxSize: 4
